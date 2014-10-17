@@ -3,7 +3,7 @@
   "version": "0.6.0",
   "author": "Landon Fuller (based entirely on work by Micah Lee)",
   "license": "GNU AGPLv3",
-  "homepage": "https://fix-macosx.com"
+  "homepage": "https://fix-macosx.com",
   "description": "The code that powers <https://fix-macosx.com/>.",
   "repository": {
     "type": "git",
