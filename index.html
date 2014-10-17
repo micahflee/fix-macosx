@@ -2,15 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Fix Mac OS X 10.10</title>
+    <title>Fix Mac OS X Yosemite</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/css/pack.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <meta name="description" content="If you're a Mac OS X user and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your search terms get sent to a variety of third parties, some of which advertise to you.">
-    <meta property="og:title" content="Fix Mac OS X">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://fix-macosx.com">
-    <meta property="og:description" content="If you're a Mac OS X user and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your search terms get sent to a variety of third parties, some of which advertise to you.">
+    <meta name="description" content="If you're a Mac OS X user and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your search terms are sent to Apple and third parties."/>
     <script src="/assets/js/pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
   </head>
@@ -25,7 +21,7 @@
         <p class="center">
           <strong>How to restore privacy:</strong> Copy and paste the following code into a terminal. Press enter, and type your password. Enjoy your privacy.
         </p>
-        <pre><code class="cmd">curl https://fix-macosx.com/fixosx.py | /usr/bin/python</code></pre>
+        <pre><code class="cmd">curl -O https://fix-macosx.com/fixmacosx.py &amp;&amp; /usr/bin/python fixmacosx.py</code></pre>
 
         <h2>What does this do?</h2>
         <pre><code>
@@ -101,7 +97,9 @@ def fixSpotlight ():
   CFPreferencesSetValue(PREF_NAME, newItems, BUNDLE_ID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
   CFPreferencesSynchronize(BUNDLE_ID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
 
-fixSpotlight()</code></pre>
+fixSpotlight()
+print "All done. Make sure to log out (and back in) for the changes to take effect."
+</code></pre>
 
       </div>
 
@@ -110,16 +108,13 @@ fixSpotlight()</code></pre>
         <p>
           If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start
           typing in Spotlight (to open an application or search for a file on your computer),
-          your local search terms get sent to Apple and a variety of third parties
+	  your local search terms are <a href="assets/img/spotlight_terms.png">sent to Apple and third parties</a>
           (including Microsoft).
         </p>
         <p>
-          Mac OS X should respect user privacy by default. Since it doesn't, you can use
-          the code to the left to disable the parts of Mac OS X which are invasive to your privacy.
-        </p>
-        <p>
-	  Spotlight isn't the only OS X feature that unnecessarily phones home;
-	  <a href="https://github.com/landonf/fixosx">help us</a> find and fix them all.
+          Mac OS X has always respected user privacy by default, and Mac OS X Yosemite should too. Since it
+	  doesn't, you can use the code to the left to disable the parts of Mac OS X which are invasive to
+	  your privacy.
         </p>
         <p class="small">
 	  This site is a Mac OS X fork of <a href="https://fix-ubuntu.com">fix-ubuntu.com</a>. Prior
@@ -128,6 +123,11 @@ fixSpotlight()</code></pre>
         </p>
 
         <div class="spacer"></div>
+        <h2>Contributing</h2>
+        <p>
+	  Spotlight isn't the only OS X feature that unnecessarily phones home! 
+	  <a href="https://github.com/landonf/fixosx">Help us</a> find and fix them all.
+        </p>
 
 	<!--
         <h2>In the Media</h2>
@@ -172,8 +172,10 @@ fixSpotlight()</code></pre>
         <div class="spacer"></div>
 	-->
 
+        <div class="spacer"></div>
+	<h2>Contact</h2>
         <p class="center">
-          <a href="https://github.com/landonf/fixosx">Github</a> &bull; <a href="https://twitter.com/landonfuller">Contact</a>
+          <a href="https://github.com/landonf/fixosx">Github</a> &bull; <a href="https://twitter.com/landonfuller">Twitter</a>
         </p>
 
         <div class="spacer"></div>
