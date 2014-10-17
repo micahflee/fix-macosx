@@ -5,7 +5,7 @@
     <title>Fix Mac OS X Yosemite</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/css/pack.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico"> -->
     <meta name="description" content="If you're a Mac OS X user and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your search terms are sent to Apple and third parties."/>
     <script src="/assets/js/pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
@@ -18,11 +18,13 @@
 
       <div class="left">
 
+        <h2>How to restore privacy:</h2> 
         <p class="center">
-          <strong>How to restore privacy:</strong> Copy and paste the following code into a terminal. Press enter, and type your password. Enjoy your privacy.
+          Copy and paste the following code into a terminal. Press enter. Log out and back in. Enjoy your privacy.
         </p>
-        <pre><code class="cmd">curl -O https://fix-macosx.com/fixmacosx.py &amp;&amp; /usr/bin/python fixmacosx.py</code></pre>
+	<pre><code class="cmd">curl -O <a href="https://fix-macosx.com/fix-macosx.py">https://fix-macosx.com/fix-macosx.py</a> &amp;&amp; /usr/bin/python fix-macosx.py</code></pre>
 
+        <div class="spacer"></div>
         <h2>What does this do?</h2>
         <pre><code>
 #!/usr/bin/python
@@ -104,11 +106,15 @@ print "All done. Make sure to log out (and back in) for the changes to take effe
       </div>
 
       <div class="right">
+	<h2>What does this fix?</h2>
+	<p>This script modifies the current user's Spotlight preferences, disabling sharing of Spotlight searches with Apple.</p>
+	<p>Spotlight isn't the only OS X feature that unnecessarily phones home!  <a href="https://github.com/landonf/fixosx">Help us</a> find and fix them all.</p>
+
         <h2>Why do we need this?</h2>
         <p>
           If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start
           typing in Spotlight (to open an application or search for a file on your computer),
-	  your local search terms are <a href="assets/img/spotlight_terms.png">sent to Apple and third parties</a>
+	  your local search terms and location are <a href="assets/img/spotlight_terms.png">sent to Apple and third parties</a>
           (including Microsoft).
         </p>
         <p>
@@ -120,13 +126,6 @@ print "All done. Make sure to log out (and back in) for the changes to take effe
 	  This site is a Mac OS X fork of <a href="https://fix-ubuntu.com">fix-ubuntu.com</a>. Prior
 	  to Ubuntu 14.10, Ubuntu's Dash feature behaved identically to Spotlight in Mac OS X Yosemite. In
 	  Ubuntu 14.10, however, Canonical switched Ubuntu to an <em>opt-in</em> model.
-        </p>
-
-        <div class="spacer"></div>
-        <h2>Contributing</h2>
-        <p>
-	  Spotlight isn't the only OS X feature that unnecessarily phones home! 
-	  <a href="https://github.com/landonf/fixosx">Help us</a> find and fix them all.
         </p>
 
 	<!--

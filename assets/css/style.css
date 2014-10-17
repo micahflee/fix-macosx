@@ -15,6 +15,10 @@ body {
   font: 16px/1.5em 'ubunturegular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+code {
+  white-space: pre-wrap;
+}
+
 h1 {
   font-size: 85px;
   line-height: 100%;
