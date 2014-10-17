@@ -22,7 +22,7 @@ h1 {
 }
 
 h1:after {
-  background: url('../img/ubuntu.png') right top no-repeat;
+//  background: url('../img/ubuntu.png') right top no-repeat;
   content: '';
   display: inline-block;
   margin-left: 20px;

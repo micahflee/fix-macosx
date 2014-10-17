@@ -2,30 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Fix Ubuntu</title>
+    <title>Fix Mac OS X 10.10</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/css/pack.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <meta name="description" content="If you're an Ubuntu user and you're using the default settings, each time you start typing in Dash (to open an application or search for a file on your computer), your search terms get sent to a variety of third parties, some of which advertise to you.">
-    <meta property="og:title" content="Fix Ubuntu">
+    <meta name="description" content="If you're a Mac OS X user and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your search terms get sent to a variety of third parties, some of which advertise to you.">
+    <meta property="og:title" content="Fix Mac OS X">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://fixubuntu.com/assets/img/opg.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="256">
-    <meta property="og:image:height" content="122">
-    <meta property="og:url" content="https://fixubuntu.com">
-    <meta property="og:description" content="If you're an Ubuntu user and you're using the default settings, each time you start typing in Dash (to open an application or search for a file on your computer), your search terms get sent to a variety of third parties, some of which advertise to you.">
+    <meta property="og:url" content="https://fix-macosx.com">
+    <meta property="og:description" content="If you're a Mac OS X user and you're using the default settings, each time you start typing in Spotlight (to open an application or search for a file on your computer), your search terms get sent to a variety of third parties, some of which advertise to you.">
     <script src="/assets/js/pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
   </head>
   <body>
     <div>
-      <div class="good-news">
-        <strong>Good news!</strong> In Ubuntu 14.10, your privacy should not be violated unless you opt-in to it. You'll still need to run this if you're using Ubuntu 12.10, 13.04, 13.10, or 14.04.
-      </div>
-
       <div class="header">
-        <h1>fix ubuntu</h1>
+        <h1>fix macosx</h1>
       </div>
 
       <div class="left">
@@ -33,55 +25,58 @@
         <p class="center">
           <strong>How to restore privacy:</strong> Copy and paste the following code into a terminal. Press enter, and type your password. Enjoy your privacy.
         </p>
-        <pre><code class="cmd">wget -q -O - https://fixubuntu.com/fixubuntu.sh | bash</code></pre>
+        <pre><code class="cmd">curl https://fix-macosx.com/fixosx.py | /usr/bin/python</code></pre>
 
         <h2>What does this do?</h2>
         <pre><code>
-#!/bin/bash
+#!/usr/bin/python
 
-GS="/usr/bin/gsettings"
-CCUL="com.canonical.Unity.lenses"
+from Foundation import NSMutableArray, NSMutableDictionary
+from Foundation import CFPreferencesSynchronize, CFPreferencesCopyValue, CFPreferencesCopyKeyList, CFPreferencesSetValue, CFPreferencesCopyMultiple, CFPreferencesSetMultiple, kCFPreferencesCurrentUser, kCFPreferencesAnyHost
+import os, sys
 
-# Figure out the version of Ubuntu that you're running
-V=`/usr/bin/lsb_release -rs`
-# The privacy problems started with 12.10, so earlier versions should do nothing
-if awk "BEGIN {exit !($V &lt; 12.10 || $V &gt;= 14.10)}"; then
-  echo "Good news! This version of Ubuntu is not known to invade your privacy."
-else
+# We only handle Yosemite's spotlight for now
+majorRelease = int(os.uname()[2].split(".")[0])
+if majorRelease &lt; 14:
+  print "Good news! This version of Mac OS X's Spotlight is not known to invade your privacy."
+  sys.exit(0)
 
-  # Check Canonical schema is present. Take first match, ignoring case.
-  SCHEMA="`$GS list-schemas | grep -i $CCUL | head -1`"
-  if [ -z "$SCHEMA" ]
-    then
-    printf "Error: could not find Canonical schema %s.\n" "$CCUL" 1&gt;&amp;2
-    exit 1
-  else
-    CCUL="$SCHEMA"
-  fi
+def fixSpotlight ():
+  DISABLED_ITEMS=set(["MENU_WEBSEARCH", "MENU_SPOTLIGHT_SUGGESTIONS"])
+  REQUIRED_ITEM_KEYS=set(["enabled", "name"])
+  BUNDLE_ID="com.apple.Spotlight"
+  PREF_NAME="orderedItems"
 
-  # Turn off "Remote Search", so search terms in Dash don't get sent to the internet
-  $GS set $CCUL remote-content-search none
+  items = CFPreferencesCopyValue(PREF_NAME, BUNDLE_ID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+  if items is None:
+    print "Could not fetch Spotlight preferences!"
+    return
 
-  # If you're using earlier than 13.10, uninstall unity-lens-shopping
-  if [ $V \&lt; 13.10 ]; then
-    sudo apt-get remove -y unity-lens-shopping
+  newItems = NSMutableArray.new()
+  for item in items:
+    missing_keys = []
+    for key in REQUIRED_ITEM_KEYS:
+      if not item.has_key(key):
+        missing_keys.append(key)
 
-  # If you're using a later version, disable remote scopes
-  else
-    $GS set $CCUL disabled-scopes \
-      "['more_suggestions-amazon.scope', 'more_suggestions-u1ms.scope',
-      'more_suggestions-populartracks.scope', 'music-musicstore.scope',
-      'more_suggestions-ebay.scope', 'more_suggestions-ubuntushop.scope',
-      'more_suggestions-skimlinks.scope']"
-  fi;
+    if len(missing_keys) is not 0:
+      print "Preference item %s is missing expected keys (%s), skipping" % (item, missing_keys)
+      newItems.append(item)
+      continue
 
-  # Block connections to Ubuntu's ad server, just in case
-  if ! grep -q "127.0.0.1 productsearch.ubuntu.com" /etc/hosts; then
-    echo -e "\n127.0.0.1 productsearch.ubuntu.com" | sudo tee -a /etc/hosts &gt;/dev/null
-  fi
+    if not item["name"] in DISABLED_ITEMS:
+      newItems.append(item)
+      continue
 
-  echo "All done. Enjoy your privacy."
-fi
+    newItem = NSMutableDictionary.dictionaryWithDictionary_(item)
+    newItem.setObject_forKey_(0, "enabled")
+    newItems.append(newItem)
+
+  CFPreferencesSetValue(PREF_NAME, newItems, BUNDLE_ID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+  CFPreferencesSynchronize(BUNDLE_ID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+
+fixSpotlight()
+print "All done. Please log out for the new settings to take effect."
         </code></pre>
 
       </div>
@@ -89,27 +84,28 @@ fi
       <div class="right">
         <h2>Why do we need this?</h2>
         <p>
-          If you're an Ubuntu user and you're using the default settings, each time you start
-          typing in Dash (to open an application or search for a file on your computer),
-          your search terms get sent to a variety of third parties, some of which advertise to you.
+          If you've upgraded to Mac OS X Yosemite (10.10) and you're using the default settings, each time you start
+          typing in Spotlight (to open an application or search for a file on your computer),
+          your local search terms get sent to Apple and a variety of third parties
+          (including Microsoft).
         </p>
         <p>
-          Ubuntu should protect user privacy by default. Since it doesn't, you can use
-          the code to the left to disable the parts of Ubuntu which are invasive to your privacy.
+          Mac OS X should respect user privacy by default. Since it doesn't, you can use
+          the code to the left to disable the parts of Mac OS X which are invasive to your privacy.
+        </p>
+        <p>
+	  Spotlight isn't the only OS X feature that unnecessarily phones home;
+	  <a href="https://github.com/landonf/fixosx">help us</a> find and fix them all.
         </p>
         <p class="small">
-          Note: This privacy problem only affects Unity. If you use GNOME
-          (<code>sudo apt-get install gnome-shell</code>) or any other desktop environment,
-          or if you run an Ubuntu derivative like <a href="http://www.linuxmint.com/">Linux Mint</a>,
-          <a href="http://xubuntu.org/">Xubuntu</a>, <a href="http://www.kubuntu.org/">Kubuntu</a>, etc.,
-          you won't have this problem.
-        </p>
-        <p>
-          <a href="https://www.eff.org/deeplinks/2012/10/privacy-ubuntu-1210-amazon-ads-and-data-leaks">Read more</a>.
+	  This site is a Mac OS X fork of <a href="https://fix-ubuntu.com">fix-ubuntu.com</a>. Prior
+	  to Ubuntu 14.10, Ubuntu's Dash feature behaved identically to Spotlight in Mac OS X Yosemite. In
+	  Ubuntu 14.10, however, Canonical switched Ubuntu to an <em>opt-in</em> model.
         </p>
 
         <div class="spacer"></div>
 
+	<!--
         <h2>In the Media</h2>
         <ul class="media">
           <li>
@@ -123,7 +119,7 @@ fi
             <a href="http://arstechnica.com/information-technology/2013/11/canonical-abused-trademark-law-to-target-a-site-critical-of-ubuntu-privacy/">
               <img src="/assets/img/arstechnica.png" alt="arstechnica" width="83" height="30">
               <br>
-              Canonical "abused trademark law" to target a site critical of Ubuntu privacy
+              Canonical "abused trademark law" to target a site critical of Mac OS X privacy
             </a>
           </li>
           <li>
@@ -137,7 +133,7 @@ fi
             <a href="http://www.techdirt.com/articles/20131107/17583725174/disappointing-to-see-canonical-act-like-trademark-bully-over-ubuntu.shtml">
               <img src="/assets/img/techdirt.png" alt="techdirt" width="101" height="25">
               <br>
-              Disappointing To See Canonical Act Like A Trademark Bully Over Ubuntu
+              Disappointing To See Canonical Act Like A Trademark Bully Over Mac OS X
             </a>
           </li>
           <li>
@@ -150,9 +146,10 @@ fi
         </ul>
 
         <div class="spacer"></div>
+	-->
 
         <p class="center">
-          <a href="https://github.com/micahflee/fixubuntu">Github</a> &bull; <a href="https://micahflee.com/">Contact</a>
+          <a href="https://github.com/landonf/fixosx">Github</a> &bull; <a href="https://twitter.com/landonfuller">Contact</a>
         </p>
 
         <div class="spacer"></div>
@@ -162,12 +159,12 @@ fi
       <div class="clear"></div>
 
       <p class="disclaimer small">
-        <strong>Disclaimer:</strong> In case you are either 1) a complete idiot; or 2) a lawyer; or 3) both,
-        please be aware that this site is not affiliated with or approved by Canonical Limited.
-        This site <em>criticizes</em> Canonical for certain privacy-invading features of Ubuntu
-        and teaches users how to fix them. So, obviously, the site is not approved by Canonical.
-        And our use of the trademarked term Ubuntu is plainly descriptive &mdash; it helps
-        the public find this site and understand its message.
+        <strong>Disclaimer:</strong> Please be aware that this site is not affiliated with or
+	approved by Apple, Inc. This site <em>criticizes</em> Apple for certain privacy-invading
+	features of Mac OS X and teaches users how to fix them. So, obviously, the site is not
+	approved by Apple. And our use of the trademarked term "Mac OS X" is plainly
+	descriptive &mdash; it helps the public find this site and understand its
+	message.
       </p>
 
     </div>

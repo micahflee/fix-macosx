@@ -1,19 +1,20 @@
 {
-  "name": "fixubuntu",
+  "name": "fixosx",
   "version": "0.6.0",
-  "author": "Micah Lee",
+  "author": "Landon Fuller (based entirely on work by Micah Lee)",
   "license": "GNU AGPLv3",
-  "homepage": "https://github.com/micahflee/fixubuntu",
-  "description": "The code that powers <https://fixubuntu.com/>.",
+  "homepage": "https://github.com/landonf/fixosx",
+  "description": "The code that powers <https://fix-macosx.com/>.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/micahflee/fixubuntu.git"
+    "url": "https://github.com/landonf/fixosx.git"
   },
   "bugs": {
-    "url": "https://github.com/micahflee/fixubuntu/issues"
+    "url": "https://github.com/landonf/fixosx/issues"
   },
   "keywords": [
-    "Ubuntu",
+    "Mac OS X",
+    "Yosemite",
     "fix",
     "privacy",
     "advertisements"
