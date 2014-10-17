@@ -10,7 +10,7 @@ module.exports = function(grunt) {
       dist: {
         files: [
           { src: '*.html', dest: 'dist/' },
-          { dest: 'dist/', src: ['.htaccess', 'favicon.ico', 'fixubuntu.sh'] },
+          { dest: 'dist/', src: ['.htaccess', 'favicon.ico', 'fixmacosx.py'] },
           { dest: 'dist/', src: 'assets/fonts/**' },
           { dest: 'dist/', src: 'assets/img/**' }
         ]
