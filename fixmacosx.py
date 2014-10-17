@@ -71,3 +71,4 @@ def fixSpotlight ():
   CFPreferencesSynchronize(BUNDLE_ID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
 
 fixSpotlight()
+print "All done. Make sure to log out (and back in) for the changes to take effect."
