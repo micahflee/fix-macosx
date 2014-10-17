@@ -5,10 +5,11 @@ This is the code that powers <https://fix-macosx.com/>.
 It is a fork of Micah Lee's <https://fixubuntu.com/>; prior to Ubuntu 14.10, Ubuntu's default behavior
 was very similar to Mac OS X 10.10 Yosemite.
 
-Copyright 2013-2014 Micah Lee, and licensed under AGPLv3. See [LICENSE](/LICENSE) for more info.
+All Mac OS X changes were authored and Copyright (c) 2014 by Landon Fuller.
 
-Mac OS X additions are Copyright (c) 2014 Landon Fuller <landon@landonf.org>
+The original code is subject to the following copyright: Copyright (c) 2013-2014 Micah Lee.
 
+Licensed under AGPLv3. See [LICENSE](/LICENSE) for more info.
 
 ## Developing
 
