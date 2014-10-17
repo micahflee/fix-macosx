@@ -3,14 +3,14 @@
   "version": "0.6.0",
   "author": "Landon Fuller (based entirely on work by Micah Lee)",
   "license": "GNU AGPLv3",
-  "homepage": "https://github.com/landonf/fixosx",
+  "homepage": "https://fix-macosx.com"
   "description": "The code that powers <https://fix-macosx.com/>.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/landonf/fixosx.git"
+    "url": "https://github.com/fix-macosx/fix-macosx.git"
   },
   "bugs": {
-    "url": "https://github.com/landonf/fixosx/issues"
+    "url": "https://github.com/fix-macosx/fix-macosx/issues"
   },
   "keywords": [
     "Mac OS X",
